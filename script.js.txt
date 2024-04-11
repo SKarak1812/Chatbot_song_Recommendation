@@ -1,0 +1,31 @@
+function sendMessage() {
+    var userInput = document.getElementById("user-input").value;
+    displayMessage(userInput, true); // Display user message in chat box
+
+    // Send user message to server (backend) for processing (simulated in this example)
+    fetch('/chatbot', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: userInput })
+    })
+    .then(response => response.json())
+    .then(data => {
+        var botResponse = data.message;
+        displayMessage(botResponse, false); // Display chatbot response in chat box
+    });
+
+    document.getElementById("user-input").value = ''; // Clear input field after sending message
+}
+
+function displayMessage(message, isUser) {
+    var chatBox = document.getElementById("chat-box");
+    var messageElement = document.createElement("p");
+    messageElement.textContent = message;
+    messageElement.classList.add(isUser ? "user-message" : "bot-message");
+    chatBox.appendChild(messageElement);
+
+    // Scroll to bottom of chat box
+    chatBox.scrollTop = chatBox.scrollHeight;
+}

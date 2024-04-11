@@ -1,0 +1,30 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
+@app.route('/styles.css')
+def styles():
+    return app.send_static_file('styles.css')
+
+@app.route('/script.js')
+def script():
+    return app.send_static_file('script.js')
+
+@app.route('/chatbot', methods=['POST'])
+def chatbot():
+    user_message = request.json['message']
+    
+    # Simulated chatbot response based on user message (replace with actual logic)
+    if 'recommend music' in user_message.lower():
+        bot_response = "Sure! What genre of music are you in the mood for?"
+    else:
+        bot_response = "I'm sorry, I didn't understand. Can you please rephrase?"
+
+    return jsonify({'message': bot_response})
+
+if __name__ == '__main__':
+    app.run(debug=True)
